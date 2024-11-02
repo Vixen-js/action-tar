@@ -1,3 +1,5 @@
+import { execSync } from "child_process";
+execSync("npm i @actions/core");
 import core from "@actions/core";
 import * as tar from "tar";
 import fs from "fs";

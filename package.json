@@ -1,6 +1,6 @@
 {
   "name": "@vixen-js/action-tar",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Vixen archive tool for GitHub Actions",
   "type": "module",
   "main": "dist/index.js",
