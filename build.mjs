@@ -7,5 +7,6 @@ esbuild.build({
   platform: "node",
   target: ["node18"],
   format: "cjs",
+  external: ["@actions/core", "tar", "fs"],
   minify: true,
 });
