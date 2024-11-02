@@ -1,2 +1,45 @@
-"use strict";var l=Object.create;var i=Object.defineProperty;var f=Object.getOwnPropertyDescriptor;var p=Object.getOwnPropertyNames;var d=Object.getPrototypeOf,w=Object.prototype.hasOwnProperty;var h=(r,t,e,a)=>{if(t&&typeof t=="object"||typeof t=="function")for(let o of p(t))!w.call(r,o)&&o!==e&&i(r,o,{get:()=>t[o],enumerable:!(a=f(t,o))||a.enumerable});return r};var s=(r,t,e)=>(e=r!=null?l(d(r)):{},h(t||!r||!r.__esModule?i(e,"default",{value:r,enumerable:!0}):e,r));var n=s(require("@actions/core")),c=s(require("tar")),u=s(require("fs"));try{let r=n.default.getInput("cwd"),t=n.default.getInput("command",{required:!0}),e=n.default.getInput("files",{required:!0}).split(`
-`).filter(m=>m.length>0),a=n.default.getInput("outPath"),o=Array.isArray(e)?e:[e];switch(t){case"compress":{if(!a)throw new Error("outPath is required");c.c({cwd:r,gzip:!0,sync:!0},o).pipe(u.default.createWriteStream(a));break}case"extract":{if(e.length!==1)throw new Error("Only one file can be extracted at a time");c.x({C:r,sync:!0,file:e[0]});break}default:throw new Error(`Unknown command: ${t}`)}}catch(r){console.log(r),n.default.setFailed(r.message)}
+const core = require("@actions/core");
+const tar = require("tar");
+const fs = require("fs");
+
+try {
+  const cwd = core.getInput("cwd");
+  const command = core.getInput("command", { required: true });
+  const files = core
+    .getInput("files", { required: true })
+    .split("\n")
+    .filter((file) => file.length > 0);
+  const outPath = core.getInput("outPath");
+
+  const fileList = Array.isArray(files) ? files : [files];
+
+  switch (command) {
+    case "compress": {
+      if (!outPath) throw new Error("outPath is required");
+
+      tar
+        .c(
+          {
+            cwd,
+            gzip: true,
+            sync: true,
+          },
+          fileList
+        )
+        .pipe(fs.createWriteStream(outPath));
+      break;
+    }
+    case "extract": {
+      if (files.length !== 1)
+        throw new Error("Only one file can be extracted at a time");
+
+      tar.x({ C: cwd, sync: true, file: files[0] });
+      break;
+    }
+    default:
+      throw new Error(`Unknown command: ${command}`);
+  }
+} catch (error) {
+  console.log(error);
+  core.setFailed(error.message);
+}
