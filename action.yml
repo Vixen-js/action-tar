@@ -1,4 +1,4 @@
-name: "Tar Action"
+name: "Tar Action for Vixen-js Projects"
 description: "Cross platform github action to tar files"
 branding:
   icon: "box"
@@ -21,4 +21,4 @@ outputs:
     description: "Returns 1 if all files are archived"
 runs:
   using: "node20"
-  main: "index.js"
+  main: "action.js"
