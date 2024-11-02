@@ -2,10 +2,10 @@
   "name": "@vixen-js/action-tar",
   "version": "0.1.2",
   "description": "Vixen archive tool for GitHub Actions",
-  "main": "dist/index.js",
+  "main": "index.js",
   "scripts": {
     "watch": "tsc --watch",
-    "build": "node ./build.mjs"
+    "build": "node ./build.mjs && mv ./dist/index.js ./index.js && rimraf ./dist"
   },
   "keywords": [
     "action",
@@ -24,6 +24,7 @@
     "eslint-plugin-prettier": "^5.2.1",
     "globals": "^15.11.0",
     "prettier": "^3.3.3",
+    "rimraf": "^6.0.1",
     "typescript": "^5.6.3",
     "typescript-eslint": "^8.12.2"
   },
